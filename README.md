@@ -89,7 +89,22 @@ fileInput.onchange = function (event) {
 
   reader.readAsText(file);
 };
+
+document.body.appendChild(fileInput);
 //fileInput.click();
+
+// Create a button to trigger the file picker
+var button = document.createElement('button');
+button.textContent = 'Select File';
+
+// Add a click event listener to the button
+button.addEventListener('click', function() {
+    fileInput.click(); // Trigger the file picker
+});
+
+// Append the file input and button to the body of the current page
+document.body.appendChild(button);
+
 
 const fileInput2 = document.createElement('input');
 fileInput2.type = 'file';
