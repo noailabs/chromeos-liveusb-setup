@@ -282,3 +282,43 @@ and it worked for me.
 # https://qmacro.org/blog/posts/2024/08/24/new-source-for-lxd-images-on-crostini/
 lxc remote set-url images https://images.lxd.canonical.com/
 ```
+
+
+```bash
+[base]
+name=CentOS-$releasever - Base
+#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=os&infra=$infra
+#baseurl=http://mirror.centos.org/centos/$releasever/os/$basearch/
+baseurl=http://vault.centos.org/7.7.1908/os/$basearch/
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+
+#released updates 
+[updates]
+name=CentOS-$releasever - Updates
+#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=updates&infra=$infra
+#baseurl=http://mirror.centos.org/centos/$releasever/updates/$basearch/
+baseurl=http://vault.centos.org/7.7.1908/updates/$basearch/
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+
+#additional packages that may be useful
+[extras]
+name=CentOS-$releasever - Extras
+#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=extras&infra=$infra
+#baseurl=http://mirror.centos.org/centos/$releasever/extras/$basearch/
+baseurl=http://vault.centos.org/7.7.1908/extras/$basearch/
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+
+#additional packages that extend functionality of existing packages
+[centosplus]
+name=CentOS-$releasever - Plus
+#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=centosplus&infra=$infra
+#baseurl=http://mirror.centos.org/centos/$releasever/centosplus/$basearch/
+baseurl=http://vault.centos.org/7.7.1908/centosplus/$basearch/
+gpgcheck=1
+enabled=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+
+```
