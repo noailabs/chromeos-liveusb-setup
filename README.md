@@ -322,3 +322,7 @@ enabled=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 
 ```
+
+```bash
+gsettings set org.gnome.desktop.notifications show-banners false
+```
