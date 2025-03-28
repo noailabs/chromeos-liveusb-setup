@@ -326,3 +326,76 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 ```bash
 gsettings set org.gnome.desktop.notifications show-banners false
 ```
+
+
+```bash
+#!/bin/bash
+
+# Define the root directory of the chroot environment
+ROOT_DIR="/home/user1/bullseye_rootfs"
+
+# Check if running as root
+if [ "$(id -u)" -ne 0 ]; then
+    echo "This script must be run as root!" >&2
+    exit 1
+fi
+
+# Function to mount the chroot environment
+mount_chroot() {
+    echo "Mounting Debian chroot in $ROOT_DIR..."
+    mount -t proc proc "$ROOT_DIR/proc"
+    mount -t sysfs sys "$ROOT_DIR/sys"
+    mount -o bind /dev "$ROOT_DIR/dev"
+    #mount -o bind /dev/pts "$ROOT_DIR/dev/pts"
+    mount -t devpts devpts "$ROOT_DIR/dev/pts"
+    mount -o bind /run "$ROOT_DIR/run"  # Needed for some services
+    mkdir -p $ROOT_DIR/tmp/.X11-unix
+    mount -o bind /tmp/.X11-unix "$ROOT_DIR/tmp/.X11-unix"
+    echo "Mounted Debian chroot."
+}
+
+# Function to unmount the chroot environment
+unmount_chroot() {
+    echo "Unmounting Debian chroot from $ROOT_DIR..."
+    umount "$ROOT_DIR/proc"
+    umount "$ROOT_DIR/sys"
+    umount "$ROOT_DIR/dev/pts"
+    umount "$ROOT_DIR/dev"
+    umount "$ROOT_DIR/run" 2>/dev/null  # Ignore if not mounted
+    umount "$ROOT_DIR/tmp/.X11-unix"
+    echo "Unmounted Debian chroot."
+}
+
+# Function to enter the chroot
+enter_chroot() {
+    echo "Entering Debian chroot..."
+    cp /etc/resolv.conf "$ROOT_DIR/etc/resolv.conf"  # Ensure networking
+    xhost +local:
+    chroot "$ROOT_DIR" /bin/bash
+}
+
+# Main script logic
+case "$1" in
+    mount)
+        mount_chroot
+        ;;
+    unmount)
+        unmount_chroot
+        ;;
+    enter)
+        mount_chroot
+        enter_chroot
+        unmount_chroot
+        ;;
+    *)
+        echo "Usage: $0 {mount|unmount|enter}"
+        echo "  mount   - Mount the chroot filesystems"
+        echo "  unmount - Unmount the chroot filesystems"
+        echo "  enter   - Mount, enter, and unmount chroot"
+        exit 1
+        ;;
+esac
+
+exit 0
+
+```
