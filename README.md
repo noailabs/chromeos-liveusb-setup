@@ -96,7 +96,12 @@ document.body.appendChild(fileInput);
 // Create a button to trigger the file picker
 var button = document.createElement('button');
 button.textContent = 'Select File';
-
+button.style.width = "100%";
+button.style.height = "50px";
+button.style.position = "relative"; // Helps with z-index
+button.style.zIndex = "1000"; // Force on top
+button.style.backgroundColor = "#4CAF50"; // Make clearly visible
+button.style.color = "white";
 // Add a click event listener to the button
 button.addEventListener('click', function() {
     fileInput.click(); // Trigger the file picker
@@ -104,7 +109,7 @@ button.addEventListener('click', function() {
 
 // Append the file input and button to the body of the current page
 document.body.appendChild(button);
-
+document.body.style.overflow = "auto";
 
 const fileInput2 = document.createElement('input');
 fileInput2.type = 'file';
