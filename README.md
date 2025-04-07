@@ -347,6 +347,8 @@ lxc-create -n bullseye1 -t download -- --dist debian --release bullseye --arch a
 #permanent fic key server
 #sed -i 's/hkp:\/\/keyserver.ubuntu.com/hkp:\/\/keyserver.ubuntu.com:80/' /usr/share/lxc/templates/lxc-download
 
+# container fs path --dir /path/to/container/root
+
 # permanent mount
 vim /var/lib/lxc/bullseye-container/config
 # lxc.mount.entry = /mnt/lxc_share /var/lib/lxc/bullseye-container/rootfs/mnt/share none bind 0 0
