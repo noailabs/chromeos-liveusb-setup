@@ -332,6 +332,19 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 gsettings set org.gnome.desktop.notifications show-banners false
 ```
 
+```bash
+yum install epel-release -y
+yum install lxc lxc-templates lxc-extra libvirt bridge-utils -y
+lxc-checkconfig
+vim /etc/lxc/default.conf
+systemctl status libvirtd
+systemctl start libvirtd
+systemctl enable libvirtd
+ifconfig
+ls /usr/share/lxc/templates/
+
+lxc-create -n bullseye1 -t download -- --dist debian --release bullseye --arch amd64 --keyserver hkp://keyserver.ubuntu.com:80
+```
 
 ```bash
 #!/bin/bash
