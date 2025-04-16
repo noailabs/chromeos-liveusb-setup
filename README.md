@@ -381,6 +381,9 @@ mount_chroot() {
     mount -o bind /run "$ROOT_DIR/run"  # Needed for some services
     mkdir -p $ROOT_DIR/tmp/.X11-unix
     mount -o bind /tmp/.X11-unix "$ROOT_DIR/tmp/.X11-unix"
+    touch $ROOT_DIR/tmp/pulse-socket
+    mount -o bind /tmp/pulse-socket "$ROOT_DIR/tmp/pulse-socket"
+
     echo "Mounted Debian chroot."
 }
 
@@ -393,6 +396,8 @@ unmount_chroot() {
     umount "$ROOT_DIR/dev"
     umount "$ROOT_DIR/run" 2>/dev/null  # Ignore if not mounted
     umount "$ROOT_DIR/tmp/.X11-unix"
+    umount "$ROOT_DIR/tmp/pulse-socket"
+
     echo "Unmounted Debian chroot."
 }
 
@@ -403,6 +408,17 @@ enter_chroot() {
     xhost +local:
     chroot "$ROOT_DIR" /bin/bash
 }
+
+load_pulse_audio() {
+pactl load-module module-native-protocol-unix auth-anonymous=1 socket=/tmp/pulse-socket
+}
+
+unload_pulse_audio(){
+pactl list short modules
+#pactl unload-module 25
+}
+
+
 
 # Main script logic
 case "$1" in
