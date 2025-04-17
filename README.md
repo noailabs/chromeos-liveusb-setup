@@ -354,6 +354,7 @@ vim /var/lib/lxc/bullseye-container/config
 # lxc.mount.entry = /mnt/lxc_share /var/lib/lxc/bullseye-container/rootfs/mnt/share none bind 0 0
 
 # manual mount
+export PULSE_SERVER=unix:/tmp/pulse-socket
 lxc-attach -n bullseye-container -- mkdir -p /mnt/share
 mount --bind /mnt/lxc_share /var/lib/lxc/bullseye-container/rootfs/mnt/share
 ```
