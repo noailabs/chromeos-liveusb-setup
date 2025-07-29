@@ -1,3 +1,6 @@
+### force dark
+chrome://flags/#enable-force-dark
+
 # crome os live usb setup
 ```bash
 wget --inet4-only https://gitlab.com/api/v4/projects/26210301/packages/generic/ncurses/6.3-20211106_x86_64/ncurses-6.3-20211106-chromeos-x86_64.tpxz
